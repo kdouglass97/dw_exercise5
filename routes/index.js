@@ -1,12 +1,21 @@
 const express = require("express");
 const router = express.Router();
 
-// intialize firebase database
+//styles?
+const submitForm = `
+    <link rel="stylesheet" type="text/css" href="/createPostStyle.css">
+    <form action="/create/submit">
+        <!-- Form content -->
+    </form>
+`;
+
+// intialize firebase database 
+// --> check dependencies to see if you have firebase
 const firestore = require("firebase/firestore");
 // create a reference to the database
 const db = firestore.getFirestore();
 
-// define index route -- get all posts
+// define index route --> get all posts
 router.get("/", (req, res) => {
     const postsQuery = firestore.getDocs(firestore.collection(db, "posts"));
     const postsArray = [];
@@ -15,17 +24,21 @@ router.get("/", (req, res) => {
         .then((response) => {
             response.forEach((post) => {
                 console.log(post.data());
-                // ... is a spread operator, assigns the value throughout rather than creating individual objects for each key value pair
+                // '...' is spread operiate
+                // instead of creating indv objects for each key pai
+                //assigns a value through (almost like a map)
+  
                 postsArray.push({id: post.id, ...post.data()}); 
             });
             res.send(postsArray);
-        }) // do not put semi colon -- they are connected
+        }) 
         .catch((error) => {
             console.log(error);
             return res.send(error);
         });
 });
 
+//add these after local 4000 to go to certain functions
 const singlePostRoute = require('./singlePost');
 router.use("/post", singlePostRoute);
 const createPostRoute = require('./createPost');

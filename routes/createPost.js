@@ -1,9 +1,11 @@
+//adding styles
+//import '/createPostStyle.css'; // Adjust the path as per your project structure
+
 const express = require("express");
 const router = express.Router();
 
 // intialize firebase database
 const firestore = require("firebase/firestore");
-// create a reference to the database
 const db = firestore.getFirestore();
 
 const submitForm = `
